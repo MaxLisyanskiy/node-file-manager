@@ -56,8 +56,8 @@ export class FileSystemHandler {
       });
 
       console.table(sortedFiles);
-    } catch (error) {
-      this.app.printOperationFailed("ls");
+    } catch ({ message }) {
+      this.app.printOperationFailed("ls", message);
     }
   }
 }

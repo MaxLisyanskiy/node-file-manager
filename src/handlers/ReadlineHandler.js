@@ -36,6 +36,15 @@ export class ReadlineHandler {
         return this.app.printCurrentDir();
       }
 
+      if (cmd.startsWith("os")) {
+        const option = args[0];
+        const fallback = this.app.osHandler.getOption(option);
+
+        if (fallback !== "unknown") {
+          return this.app.printCurrentDir();
+        }
+      }
+
       this.app.printInvalidInput(cmd);
     });
 
