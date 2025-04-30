@@ -26,9 +26,11 @@ export class ReadlineHandler {
       }
 
       if (cmd.startsWith("cd")) {
-        const path = args.join(" ");
-        this.app.fileSystemHandler.cd(path);
-        return this.app.printCurrentDir();
+        const filePath = args[0];
+        if (filePath || filePath.trim() !== "") {
+          this.app.fileSystemHandler.cd(filePath);
+          return this.app.printCurrentDir();
+        }
       }
 
       if (cmd === "ls") {
@@ -41,6 +43,15 @@ export class ReadlineHandler {
         const fallback = this.app.osHandler.getOption(option);
 
         if (fallback !== "unknown") {
+          return this.app.printCurrentDir();
+        }
+      }
+
+      if (cmd === "hash") {
+        const filePath = args[0];
+
+        if (filePath || filePath.trim() !== "") {
+          this.app.hashHandler.hash(filePath);
           return this.app.printCurrentDir();
         }
       }

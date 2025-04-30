@@ -2,6 +2,7 @@ import { cwd } from "process";
 import { ReadlineHandler } from "./handlers/ReadlineHandler.js";
 import { FileSystemHandler } from "./handlers/FileSystemHandler.js";
 import { OSHandler } from "./handlers/OSHandler.js";
+import { HashHandler } from "./handlers/HashHandler.js";
 
 export class App {
   constructor() {
@@ -10,6 +11,7 @@ export class App {
     this.readlineHandler = new ReadlineHandler(this);
     this.fileSystemHandler = new FileSystemHandler(this);
     this.osHandler = new OSHandler(this);
+    this.hashHandler = new HashHandler(this);
   }
 
   init() {

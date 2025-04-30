@@ -16,13 +16,17 @@ export class FileSystemHandler {
   }
 
   cd(path) {
-    const newPath = resolve(this.app.currentDir, path);
+    const fullPath = resolve(this.app.currentDir, path);
 
-    if (existsSync(newPath) && statSync(newPath).isDirectory()) {
-      this.app.currentDir = newPath;
-    } else {
-      this.app.printOperationFailed(`cd. Invalid path: ${path}`);
+    if (!existsSync(fullPath)) {
+      return this.app.printOperationFailed(`cd. ${path} is not exist`);
     }
+
+    if (!statSync(fullPath).isDirectory()) {
+      return this.app.printOperationFailed(`cd. ${path} is not directory`);
+    }
+
+    this.app.currentDir = fullPath;
   }
 
   ls() {
