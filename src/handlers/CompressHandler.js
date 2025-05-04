@@ -7,8 +7,8 @@ import { resolve, join, basename } from "path";
 const pipelineAsync = promisify(pipeline);
 
 // Test node commands
-// 1) compress ./src/compressTest/compressFile.txt ./src/compressTest
-// 2) decompress ./src/compressTest/compressFile.txt.br ./src/compressTest/compressFile123.txt
+// 1) compress ./src/compress/file.txt ./src/compress
+// 2) decompress ./src/compress/file.txt.br ./src/compress/newFile.txt
 
 export class CompressHandler {
   constructor(appInstance) {

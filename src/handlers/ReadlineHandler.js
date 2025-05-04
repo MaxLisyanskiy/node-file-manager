@@ -38,6 +38,48 @@ export class ReadlineHandler {
         return this.app.printCurrentDir();
       }
 
+      if (cmd === "cat") {
+        const filePath = args[0];
+        await this.app.readableFileHandler.cat(filePath);
+        return this.app.printCurrentDir();
+      }
+
+      if (cmd === "add") {
+        const fileName = args[0];
+        await this.app.readableFileHandler.add(fileName);
+        return this.app.printCurrentDir();
+      }
+
+      if (cmd === "mkdir") {
+        const dirName = args[0];
+        await this.app.readableFileHandler.mkdir(dirName);
+        return this.app.printCurrentDir();
+      }
+
+      if (cmd === "rn") {
+        const [oldPath, newFileName] = args;
+        await this.app.readableFileHandler.rn(oldPath, newFileName);
+        return this.app.printCurrentDir();
+      }
+
+      if (cmd === "cp") {
+        const [sourcePath, destinationPath] = args;
+        await this.app.readableFileHandler.cp(sourcePath, destinationPath);
+        return this.app.printCurrentDir();
+      }
+
+      if (cmd === "mv") {
+        const [sourcePath, destinationPath] = args;
+        await this.app.readableFileHandler.mv(sourcePath, destinationPath);
+        return this.app.printCurrentDir();
+      }
+
+      if (cmd === "rm") {
+        const filePath = args[0];
+        await this.app.readableFileHandler.rm(filePath);
+        return this.app.printCurrentDir();
+      }
+
       if (cmd.startsWith("os")) {
         const option = args[0];
         const fallback = this.app.osHandler.getOption(option);

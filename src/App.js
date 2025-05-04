@@ -1,6 +1,7 @@
 import { cwd } from "process";
 import { ReadlineHandler } from "./handlers/ReadlineHandler.js";
 import { FileSystemHandler } from "./handlers/FileSystemHandler.js";
+import { ReadableFileHandler } from "./handlers/ReadableFileHandler.js";
 import { OSHandler } from "./handlers/OSHandler.js";
 import { HashHandler } from "./handlers/HashHandler.js";
 import { CompressHandler } from "./handlers/CompressHandler.js";
@@ -11,6 +12,7 @@ export class App {
     this.currentDir = cwd();
     this.readlineHandler = new ReadlineHandler(this);
     this.fileSystemHandler = new FileSystemHandler(this);
+    this.readableFileHandler = new ReadableFileHandler(this);
     this.osHandler = new OSHandler(this);
     this.hashHandler = new HashHandler(this);
     this.compressHandler = new CompressHandler(this);
