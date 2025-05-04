@@ -5,10 +5,11 @@ import { ReadableFileHandler } from "./handlers/ReadableFileHandler.js";
 import { OSHandler } from "./handlers/OSHandler.js";
 import { HashHandler } from "./handlers/HashHandler.js";
 import { CompressHandler } from "./handlers/CompressHandler.js";
+import { UsernameHandler } from "./handlers/UsernameHandler.js";
 
 export class App {
   constructor() {
-    this.username = process.env.npm_config_username;
+    this.username = new UsernameHandler().name;
     this.currentDir = cwd();
     this.readlineHandler = new ReadlineHandler(this);
     this.fileSystemHandler = new FileSystemHandler(this);

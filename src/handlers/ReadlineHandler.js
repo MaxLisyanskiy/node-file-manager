@@ -25,7 +25,7 @@ export class ReadlineHandler {
         return this.app.printCurrentDir();
       }
 
-      if (cmd.startsWith("cd")) {
+      if (cmd === "cd") {
         const filePath = args[0];
         if (filePath || filePath.trim() !== "") {
           this.app.fileSystemHandler.cd(filePath);
