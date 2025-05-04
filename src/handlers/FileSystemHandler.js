@@ -1,5 +1,5 @@
 import { dirname, join, resolve } from "path";
-import { readdirSync, statSync, existsSync } from "fs";
+import { promises as fsPromises } from "fs";
 
 export class FileSystemHandler {
   constructor(appInstance) {
@@ -15,34 +15,44 @@ export class FileSystemHandler {
     this.app.currentDir = parentDir;
   }
 
-  cd(path) {
+  async cd(path) {
     const fullPath = resolve(this.app.currentDir, path);
 
-    if (!existsSync(fullPath)) {
-      return this.app.printOperationFailed(`cd. ${path} is not exist`);
+    try {
+      await fsPromises.access(fullPath);
+    } catch (e) {
+      return this.app.printOperationFailed(`cd. ${path} does not exist`);
     }
 
-    if (!statSync(fullPath).isDirectory()) {
-      return this.app.printOperationFailed(`cd. ${path} is not directory`);
+    try {
+      const stats = await fsPromises.stat(fullPath);
+      if (!stats.isDirectory()) {
+        return this.app.printOperationFailed(`cd. ${path} is not a directory`);
+      }
+    } catch (e) {
+      return this.app.printOperationFailed(`cd. Unable to access ${path}`);
     }
 
     this.app.currentDir = fullPath;
   }
 
-  ls() {
+  async ls() {
     const currentDir = this.app.currentDir;
 
     try {
-      const files = readdirSync(currentDir);
+      const files = await fsPromises.readdir(currentDir);
 
-      const fileDetails = files.map((file) => {
+      const fileDetailsPromises = files.map(async (file) => {
         const filePath = join(currentDir, file);
-        const isDirectory = statSync(filePath).isDirectory();
+        const stats = await fsPromises.stat(filePath);
+        const isDirectory = stats.isDirectory();
         return {
           name: file,
           type: isDirectory ? "directory" : "file",
         };
       });
+
+      const fileDetails = await Promise.all(fileDetailsPromises);
 
       const sortedFiles = fileDetails.sort((a, b) => {
         if (a.type === "directory" && b.type === "file") return -1;
@@ -55,11 +65,9 @@ export class FileSystemHandler {
         this.type = type;
       }
 
-      sortedFiles.map((file) => {
-        return new TableColumns(file.name, file.type);
-      });
+      const tableColumns = sortedFiles.map((file) => new TableColumns(file.name, file.type));
 
-      console.table(sortedFiles);
+      console.table(tableColumns);
     } catch ({ message }) {
       this.app.printOperationFailed("ls", message);
     }

@@ -27,14 +27,14 @@ export class ReadlineHandler {
 
       if (cmd === "cd") {
         const filePath = args[0];
-        if (filePath || filePath.trim() !== "") {
-          this.app.fileSystemHandler.cd(filePath);
+        if (filePath && filePath?.trim() !== "") {
+          await this.app.fileSystemHandler.cd(filePath);
           return this.app.printCurrentDir();
         }
       }
 
       if (cmd === "ls") {
-        this.app.fileSystemHandler.ls();
+        await this.app.fileSystemHandler.ls();
         return this.app.printCurrentDir();
       }
 
