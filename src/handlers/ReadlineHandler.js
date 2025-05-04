@@ -13,7 +13,7 @@ export class ReadlineHandler {
   }
 
   setupListeners() {
-    this.readline.on("line", (command) => {
+    this.readline.on("line", async (command) => {
       const [cmd, ...args] = command.split(" ");
 
       if (cmd === ".exit") {
@@ -52,6 +52,39 @@ export class ReadlineHandler {
 
         if (filePath || filePath.trim() !== "") {
           this.app.hashHandler.hash(filePath);
+          return this.app.printCurrentDir();
+        }
+      }
+
+      if (cmd === "hash") {
+        const filePath = args[0];
+
+        if (filePath || filePath.trim() !== "") {
+          this.app.hashHandler.hash(filePath);
+          return this.app.printCurrentDir();
+        }
+      }
+
+      if (cmd === "compress") {
+        const [sourcePath, destinationPath] = args;
+
+        const isSourcePathValid = sourcePath || sourcePath.trim() !== "";
+        const isDestinationPathValid = destinationPath || destinationPath.trim() !== "";
+
+        if (isSourcePathValid && isDestinationPathValid) {
+          await this.app.compressHandler.compress(sourcePath, destinationPath);
+          return this.app.printCurrentDir();
+        }
+      }
+
+      if (cmd === "decompress") {
+        const [sourcePath, destinationPath] = args;
+
+        const isSourcePathValid = sourcePath || sourcePath.trim() !== "";
+        const isDestinationPathValid = destinationPath || destinationPath.trim() !== "";
+
+        if (isSourcePathValid && isDestinationPathValid) {
+          await this.app.compressHandler.decompress(sourcePath, destinationPath);
           return this.app.printCurrentDir();
         }
       }

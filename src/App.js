@@ -3,6 +3,7 @@ import { ReadlineHandler } from "./handlers/ReadlineHandler.js";
 import { FileSystemHandler } from "./handlers/FileSystemHandler.js";
 import { OSHandler } from "./handlers/OSHandler.js";
 import { HashHandler } from "./handlers/HashHandler.js";
+import { CompressHandler } from "./handlers/CompressHandler.js";
 
 export class App {
   constructor() {
@@ -12,6 +13,7 @@ export class App {
     this.fileSystemHandler = new FileSystemHandler(this);
     this.osHandler = new OSHandler(this);
     this.hashHandler = new HashHandler(this);
+    this.compressHandler = new CompressHandler(this);
   }
 
   init() {
